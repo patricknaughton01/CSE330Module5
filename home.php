@@ -31,24 +31,7 @@
                             <a href="#" id="dropdown-toggle" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                 <span class="caret"></span>
                             </a>
-                            <ul class="dropdown-menu" id="dropdown-menu">
-                                <?php
-                                    if(!isset($_SESSION["username"])){
-                                        printf('
-                                            <p>Login:</p>
-                                            <input type="text" name="username" id="username" placeholder="Username"/>
-                                            <input type="password" name="password" id="password" placeholder="Password"/>
-                                            <button class="btn btn-default" id="submit-login">Login</button>
-                                            <button class="btn btn-default" id="register-button">Register</button>
-                                        ');
-                                    }else{
-                                        printf('
-                                            <button class="btn btn-default create-event-button" id="create-event-button-dropdown">Create Event</button>
-                                            <button class="btn btn-default logout-button" id="logout-button-dropdown">Logout</button>
-                                        ');
-                                    }
-                                ?>
-                            </ul>
+                            <ul class="dropdown-menu" id="dropdown-menu"></ul>
                         </li>
                     </ul>
                 </div>
