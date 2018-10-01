@@ -1,4 +1,5 @@
 # Database Schema
+Database name: calendar
 ## Table: users
 | id | username | hash |
 |----|----------|------|
