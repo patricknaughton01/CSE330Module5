@@ -15,8 +15,6 @@ document.addEventListener("DOMContentLoaded", function(){
         calendar.appendChild(row.cloneNode(true));
     }
     setCsrf();
-    $(".create-event-button").on("click", createEventPopup);
-    $(".logout-button").on("click", logout);
     getUsername();
 }, false);
 
@@ -24,11 +22,20 @@ function createEventPopup(){
     console.log("Creating event popup");
 }
 
+function createRegisterPopup(){
+    console.log("registering");
+}
+
 function getUsername(){
     request(function(r){
         try{
-            user_id = parseInt(r.user_id);
-            username = r.username;
+            if(r.username !== null){
+                user_id = parseInt(r.user_id);
+                username = r.username;
+            }else{
+                username = "";
+                user_id = -1;
+            }
         }catch(e){
             console.log(e);
             username = "";
@@ -67,6 +74,9 @@ function loadContent(){
             </li>
         `;
     }
+    $("#register-button").on("click", createRegisterPopup);
+    $(".create-event-button").on("click", createEventPopup);
+    $(".logout-button").on("click", logout);
 }
 
 function request(callback, params={}){
