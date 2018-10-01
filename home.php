@@ -23,20 +23,31 @@
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li><a href="#" id="today-link">Today</a></li>
-                        <li><a href="#" id="create-event-link">Create an Event</a></li>
+                        <li><button class="btn btn-default" id="today-button">Today</button></li>
+                        <li><button class="btn btn-default create-event-button" id="create-event-button-header">Create an Event</button></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <span class="caret"></span>
+                            </a>
                             <ul class="dropdown-menu">
-                                <form>
-                                    <p>Login:</p>
-                                    <input type="text" name="username" id="username" placeholder="Username"/>
-                                    <input type="password" name="password" id="password" placeholder="Password"/>
-                                    <button class="btn btn-default" id="submit-login">Login</button>
-                                    <a href="#" id="register-link">Register</a>
-                                </form>
+                                <?php
+                                    if(!isset($_SESSION["username"])){
+                                        printf('
+                                            <p>Login:</p>
+                                            <input type="text" name="username" id="username" placeholder="Username"/>
+                                            <input type="password" name="password" id="password" placeholder="Password"/>
+                                            <button class="btn btn-default" id="submit-login">Login</button>
+                                            <button class="btn btn-default" id="register-button">Register</button>
+                                        ');
+                                    }else{
+                                        printf('
+                                            <button class="btn btn-default create-event-button" id="create-event-button-dropdown">Create Event</button>
+                                            <button class="btn btn-default logout-button" id="logout-button-dropdown">Logout</button>
+                                        ');
+                                    }
+                                ?>
                             </ul>
                         </li>
                     </ul>
