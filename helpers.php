@@ -125,7 +125,6 @@
      * @param string $password the password the user entered
      * @return string "success" if the user is verified, some error if the
      * user is not verified:
-     *      "statement-prep-error"  :   The SQL query couldn't be prepared.
      *      "dup-username"          :   The users table has two entries with that username.
      *      "not-user"              :   The user hasn't registerd yet (they aren't a user).
      *      "invalid-password"      :   The user entered the wrong password.
@@ -168,8 +167,11 @@
     }
 
     //******************Database**************************//
+    // connect() and prepare_query() are also from Module 3 (connect() uses
+    // a different path to get the database credentials.
+
     /*
-     * Connect to the news database and output an error if there is one.
+     * Connect to the calendar database and output an error if there is one.
      *
      * @return mysqli connection to the news database.
      */
@@ -184,5 +186,35 @@
             exit;
         }
         return $mysqli;
+    }
+
+    /*
+     * Use the $sqli object to prepare the query in $query_string. Return a
+     * statement that contains the prepared query.
+     *
+     * @param sqli $sqli the sqli object
+     * @param string $query_string the query to prepare
+     * @return statement the statement object containing the prepared query.
+     */
+    function prepare_query($sqli, $query_string){
+        $stmt = $sqli->prepare($query_string);
+        if(!$stmt){
+            printf("Query Prep Failed: %s\n", $sqli->error);
+            exit;
+        }
+        return $stmt;
+    }
+
+    //********************Filtering*************************//
+    // This is also from Module 3
+
+    /**
+     * Returns if the username is valid (nonzero number of alphanumeric characters)
+     *
+     * @param string $username the username to test
+     * @return boolean whether or not the username is valid
+     */
+    function username_valid($username){
+        return preg_match("/^\w+$/", $username);
     }
 ?>
