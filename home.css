@@ -1,0 +1,25 @@
+
+.table{
+    display: table;
+    width: auto;
+    border-spacing: 10px;
+}
+
+.table-row{
+    display: table-row;
+    width: auto;
+}
+
+.table-cell{
+    padding: 10px;
+    display: table-cell;
+    border: solid black 2px;
+    border-radius: 5px;
+    width: 14%;
+    min-width: 90px;
+    height: auto;
+}
+
+.hidden{
+    display: none;
+}
