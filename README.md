@@ -1,3 +1,5 @@
+# PHP Session security
+session.cookie_httponly was set to 1 and session.name to "COOK" in php.ini.
 # Database Schema
 Database name: calendar
 ## Table: users
