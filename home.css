@@ -1,4 +1,29 @@
 
+.modal-box{
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000000000000;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+#registration-modal{
+    height: auto;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    z-index: 1000000000001;
+}
+
+#registration-form-group{
+    max-width: 300px;
+}
+
 .table{
     display: table;
     width: auto;
@@ -17,6 +42,15 @@
     border-radius: 5px;
     width: 14%;
     min-width: 90px;
+    height: auto;
+}
+
+.card{
+    background-color: white;
+    height: auto;
+}
+
+.card-body{
     height: auto;
 }
 

@@ -23,7 +23,63 @@ function createEventPopup(){
 }
 
 function createRegisterPopup(){
-    console.log("registering");
+    let modalBox = document.createElement("DIV");
+    modalBox.classList.add("modal-box");
+    let modal = document.createElement("DIV");
+    modal.classList.add("card");
+    modal.id = "registration-modal";
+    let content = document.createElement("DIV");
+    content.classList.add("card-body");
+    content.innerHTML = `
+        <h1>Register</h1>
+        <div id="registration-form-group">
+            <input class="registration-input" type="text" name="username" id="register-username" placeholder="Username"/>
+            <input class="registration-input" type="password" name="password" id="register-password" placeholder="Password"/>
+            <input class="registration-input" type="password" name="cpassword" id="register-cpassword" placeholder="Confirm Password"/>
+            <div id="registration-alerts"></div>
+            <div>
+                <button class="btn btn-default" id="submit-registration">Submit</button>
+            </div>
+        </div>
+    `;
+    modal.appendChild(content);
+    modalBox.appendChild(modal);
+    document.getElementsByTagName("body")[0].appendChild(modalBox);
+    modalBox.addEventListener("click", closeRegistrationModal, false);
+    document.getElementById("submit-registration").addEventListener("click", registerUser, false);
+    $(".registration-input").on("change", verifyRegistrationInputs);
+}
+
+function verifyRegistrationInputs(){
+    let usernameField = document.getElementById("register-username");
+    let passwordField = document.getElementById("register-password");
+    let cpasswordField = document.getElementById("register-cpassword");
+    let alertField = document.getElementById("registration-alerts");
+    if(alertField === null){
+        console.log("No alert field");
+        return;
+    }
+    alertField.innerText = "";
+    if(usernameField === null || passwordField === null || cpasswordField === null){
+        alertField.innerText = "No username or password field";
+    }else{
+        if(!usernameValid(usernameField.value)){
+            alertField.innerText = "Invalid username";
+        }else if(passwordField.value !== cpasswordField.value){
+            alertField.innerText = "Passwords do not match";
+        }
+    }
+}
+
+function registerUser(){
+
+}
+
+function closeRegistrationModal(evt){
+    if(evt.target === this){
+        this.removeEventListener("click", closeRegistrationModal);
+        this.parentNode.removeChild(this);
+    }
 }
 
 function getUsername(){
@@ -103,4 +159,8 @@ function request(callback, params={}){
  */
 function setCsrf(){
     csrf = document.getElementById("csrf").innerText;
+}
+
+function usernameValid(username){
+    return /^[a-zA-Z]+$/.test(username);
 }
