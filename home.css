@@ -37,14 +37,19 @@ body{
 .table-row{
     display: table-row;
     width: auto;
+    height: 8vw;
+}
+
+#calendar-header{
+    height: auto;
 }
 
 .table-cell{
     padding: 10px;
-    display: table-cell;
+    display:table-cell;
     border: solid black 2px;
     border-radius: 5px;
-    width: 14%;
+    width: 15vw;
     min-width: 90px;
     height: auto;
 }

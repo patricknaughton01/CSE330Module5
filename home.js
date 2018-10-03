@@ -1,22 +1,44 @@
-var lengthOfWeek = 7;
 var csrf = "";
 var username = "";
 var user_id = -1;
+var currentDate = new Date();
+var currentMonth = null;
+var calendar = null;
 
 document.addEventListener("DOMContentLoaded", function(){
-    // Add rows to the calendar
-    let row = document.createElement("DIV");
-    row.classList.add("table-row");
-    for(let i = 0; i<lengthOfWeek; i++){
-        row.innerHTML += '<div class="table-cell"></div>';
-    }
-    let calendar = document.getElementById("calendar");
-    for(let i = 0; i<5; i++){
-        calendar.appendChild(row.cloneNode(true));
-    }
+    calendar = document.getElementById("calendar");
+    currentMonth = new Month(currentDate.getFullYear(), currentDate.getMonth());
+    //console.log(currentDate.getWeeks());
+    updateCalendar(currentMonth);
     setCsrf();
     getUsername();
 }, false);
+
+function updateCalendar(month){
+    let weeks = month.getWeeks();
+    for(let w = 0; w<weeks.length; w++){
+        let row = document.createElement("DIV");
+        row.classList.add("table-row");
+        let days = weeks[w].getDates();
+        for(let d = 0; d<days.length; d++){
+            let dispMonth = days[d].getMonth() + 1;
+            let dispDate = days[d].getDate();
+            row.innerHTML +=
+            '<div class="table-cell" id="' + dispMonth + "-" + dispDate + '">' +
+                '<div class="date-field">' +
+                    dispMonth +
+                    '/' +
+                    dispDate +
+                '</div>' +
+            '</div>';
+        }
+        calendar.appendChild(row.cloneNode(true));
+    }
+    request(function(r){
+
+    },
+    {"action": "get-events", "month": month.month, "year": month.year});
+}
 
 function createEventPopup(){
     console.log("Creating event popup");
