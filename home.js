@@ -72,13 +72,38 @@ function verifyRegistrationInputs(){
 }
 
 function registerUser(){
-
+    let username = document.getElementById("register-username");
+    if(username !== null){ username = username.value; }else{ return; }
+    let password = document.getElementById("register-password");
+    if(password !== null){ password = password.value; }else{ return; }
+    let cpassword = document.getElementById("register-cpassword");
+    if(cpassword !== null){ cpassword = cpassword.value; }else{ return; }
+    request(function(r){
+        if(r.status === "success"){
+            closeRegistrationModal("manual");
+            getUsername();
+        }else{
+            console.log(r);
+        }
+    },
+    {"action": "register-user", "username":username, "password": password, "cpassword": cpassword});
 }
 
 function closeRegistrationModal(evt){
+    let obj = null;
     if(evt.target === this){
-        this.removeEventListener("click", closeRegistrationModal);
-        this.parentNode.removeChild(this);
+        obj = event.target;
+    }else if(evt==="manual"){
+        obj = document.getElementsByClassName("modal-box")[0];
+    }
+    try{
+        console.log(obj);
+        obj.removeEventListener("click", closeRegistrationModal);
+        $(".registration-input").off("change", verifyRegistrationInputs);
+        document.getElementById("submit-registration").removeEventListener("click", registerUser);
+        obj.parentNode.removeChild(obj);
+    }catch(e){
+        console.log(e);
     }
 }
 
@@ -104,11 +129,14 @@ function getUsername(){
 function logout(){
     request(function(r){
         console.log(r);
+        csrf = r["new-csrf"];
+        getUsername();
     }, {"action":"logout"});
 }
 
 function loadContent(){
     let dropdown = document.getElementById("dropdown-toggle");
+    dropdown.innerHTML = "<span class='caret'></span>";
     let menu = document.getElementById("dropdown-menu");
     if(username === ""){
         dropdown.insertBefore(document.createTextNode("Guest"), dropdown.childNodes[0]);
@@ -140,11 +168,7 @@ function request(callback, params={}){
     xhr.addEventListener("load", function(evt){
         console.log(evt.target.responseText);
         let r = JSON.parse(evt.target.responseText);
-        if(r.status === "success"){
-            callback(r);
-        }else{
-            console.log(r.type);
-        }
+        callback(r);
     }, false);
     params.csrf = csrf;
     xhr.open("POST", "javascriptrequests.php");

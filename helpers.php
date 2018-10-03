@@ -78,7 +78,8 @@
         $stmt->execute();
         $stmt->close();
         $_SESSION["username"] = $username;
-        return set_user_id($username);
+        set_user_id($username);
+        return("success");
     }
 
     /*
@@ -216,5 +217,21 @@
      */
     function username_valid($username){
         return preg_match("/^\w+$/", $username);
+    }
+
+    /**
+     * Check if $post contains a non null value for $key.
+     * If it does, return this value, otherwise, exit immediately.
+     *
+     * @param AssociativeArray $post post data coming into the page.
+     * @param string $key the key to check for in $post
+     * @return unknown the value associated with $key in $post if there is one.
+     */
+    function validate($post, $key){
+        if(isset($post[$key]) && $post[$key] !== null){
+            return $post[$key];
+        }
+        printf( '{"status": "error", "type": "POST key", "message" "Missing key: %s"}', $key );
+        exit;
     }
 ?>
