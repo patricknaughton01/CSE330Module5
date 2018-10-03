@@ -19,12 +19,12 @@
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <a class="navbar-brand">330 Calendar</a>
+                    <a class="navbar-brand" href="home.php">330 Calendar</a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li><button class="btn btn-default" id="today-button">Today</button></li>
-                        <li><button class="btn btn-default create-event-button" id="create-event-button-header">Create an Event</button></li>
+                        <li><button class="btn btn-default navbar-btn" id="today-button">Today</button></li>
+                        <li><button class="btn btn-default create-event-button navbar-btn" id="create-event-button-header">Create an Event</button></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
