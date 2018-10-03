@@ -89,6 +89,19 @@ function registerUser(){
     {"action": "register-user", "username":username, "password": password, "cpassword": cpassword});
 }
 
+function logUserIn(){
+    let username = document.getElementById("username");
+    let password = document.getElementById("password");
+    if(username !== null && password !== null){
+        username = username.value;
+        password = password.value;
+    }else{return;}
+    request(function(r){
+        console.log(r);
+        getUsername();
+    }, {"action": "log-user-in", "username": username, "password": password});
+}
+
 function closeRegistrationModal(evt){
     let obj = null;
     if(evt.target === this){
@@ -159,6 +172,7 @@ function loadContent(){
         `;
     }
     $("#register-button").on("click", createRegisterPopup);
+    $("#submit-login").on("click", logUserIn);
     $(".create-event-button").on("click", createEventPopup);
     $(".logout-button").on("click", logout);
 }
