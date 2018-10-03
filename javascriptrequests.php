@@ -32,6 +32,22 @@
                     }
                     exit;
                     break;
+                case "log-user-in":
+                    $username = (string) validate($_POST, "username");
+                    $password = (string) validate($_POST, "password");
+                    if(!username_valid($username)){
+                        echo '{"status": "error", "type":"login", "message": "username-invalid"}';
+                        exit;
+                    }
+                    $status = check_user($_POST);
+                    if($status === "success"){
+                        echo '{"status": "success"}';
+                        exit;
+                    }else{
+                        printf('{"status": "error", "type":"login", "message": "failed-login: %s"}', $status);
+                    }
+                    exit;
+                    break;
                 case "logout":
                     session_destroy();
                     session_start();
