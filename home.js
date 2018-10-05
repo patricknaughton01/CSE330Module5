@@ -23,31 +23,34 @@ function createEventPopup(){
 }
 
 function createRegisterPopup(){
-    let modalBox = document.createElement("DIV");
-    modalBox.classList.add("modal-box");
-    let modal = document.createElement("DIV");
-    modal.classList.add("card");
-    modal.id = "registration-modal";
-    let content = document.createElement("DIV");
-    content.classList.add("card-body");
-    content.innerHTML = `
-        <h1>Register</h1>
-        <div id="registration-form-group">
-            <input class="registration-input" type="text" name="username" id="register-username" placeholder="Username"/>
-            <input class="registration-input" type="password" name="password" id="register-password" placeholder="Password"/>
-            <input class="registration-input" type="password" name="cpassword" id="register-cpassword" placeholder="Confirm Password"/>
-            <div id="registration-alerts"></div>
-            <div>
-                <button class="btn btn-default" id="submit-registration">Submit</button>
+    if (username === "") {
+        let modalBox = document.createElement("DIV");
+        modalBox.classList.add("modal-box");
+        let modal = document.createElement("DIV");
+        modal.classList.add("card");
+        modal.id = "registration-modal";
+        let content = document.createElement("DIV");
+        content.classList.add("card-body");
+        content.innerHTML = `
+            <h1>Register</h1>
+            <div id="registration-form-group">
+                <input class="registration-input" type="text" name="username" id="register-username" placeholder="Username"/>
+                <input class="registration-input" type="password" name="password" id="register-password" placeholder="Password"/>
+                <input class="registration-input" type="password" name="cpassword" id="register-cpassword" placeholder="Confirm Password"/>
+                <div id="registration-alerts"></div>
+                <div>
+                    <button class="btn btn-default" id="submit-registration">Submit</button>
+                </div>
             </div>
-        </div>
-    `;
-    modal.appendChild(content);
-    modalBox.appendChild(modal);
-    document.getElementsByTagName("body")[0].appendChild(modalBox);
-    modalBox.addEventListener("click", closeRegistrationModal, false);
-    document.getElementById("submit-registration").addEventListener("click", registerUser, false);
-    $(".registration-input").on("change", verifyRegistrationInputs);
+        `;
+        modal.appendChild(content);
+        modalBox.appendChild(modal);
+        document.getElementsByTagName("body")[0].appendChild(modalBox);
+        modalBox.addEventListener("click", closeRegistrationModal, false);
+        document.getElementById("submit-registration").addEventListener("click", registerUser, false);
+        $(".registration-input").on("change", verifyRegistrationInputs);
+    }
+
 }
 
 function verifyRegistrationInputs(){
