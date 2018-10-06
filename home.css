@@ -28,6 +28,10 @@ body{
     max-width: 300px;
 }
 
+#dropdown-menu{
+    padding: 5px;
+}
+
 .table{
     display: table;
     width: auto;
@@ -60,6 +64,10 @@ body{
 
 .hidden{
     display: none;
+}
+
+.btn.btn-default {
+    margin-top: 5px;
 }
 
 .btn.btn-default.navbar-btn {
