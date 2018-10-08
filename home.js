@@ -15,6 +15,17 @@ document.addEventListener("DOMContentLoaded", function(){
 }, false);
 
 function updateCalendar(month){
+    calendar.innerHTML = `
+        <div class="table-row" id="calendar-header">
+            <div class="table-cell">Sunday</div>
+            <div class="table-cell">Monday</div>
+            <div class="table-cell">Tuesday</div>
+            <div class="table-cell">Wednesday</div>
+            <div class="table-cell">Thursday</div>
+            <div class="table-cell">Friday</div>
+            <div class="table-cell">Saturday</div>
+        </div>
+    `;
     let weeks = month.getWeeks();
     for(let w = 0; w<weeks.length; w++){
         let row = document.createElement("DIV");
@@ -35,7 +46,24 @@ function updateCalendar(month){
         calendar.appendChild(row.cloneNode(true));
     }
     request(function(r){
-
+        if(r.status === "success"){
+            for(let evt in r.events){
+                let start_date = new Date(r.events[evt].start_time);
+                let end_date = new Date(r.events[evt].end_time);
+                for(let d = start_date; d<=end_date; d.setDate(d.getDate()+1)){
+                    let dayElem = document.getElementById(
+                        (d.getMonth()+1) + "-" + d.getDate());
+                    if(dayElem !== null){
+                        let eventElem = document.createElement("DIV");
+                        let eventText = document.createTextNode(r.events[evt].title);
+                        eventElem.appendChild(eventText);
+                        eventElem.classList.add("event");
+                        eventElem.id = "event-" + evt;
+                        dayElem.appendChild(eventElem);
+                    }
+                }
+            }
+        }
     },
     {"action": "get-events", "month": month.month, "year": month.year});
 }
@@ -170,6 +198,7 @@ function logout(){
 }
 
 function loadContent(){
+    updateCalendar(currentMonth);
     let dropdown = document.getElementById("dropdown-toggle");
     dropdown.innerHTML = "<span class='caret'></span>";
     let menu = document.getElementById("dropdown-menu");

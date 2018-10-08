@@ -39,15 +39,7 @@
         </nav>
         <div class="calendar-container container">
             <div class="table" id="calendar">
-                <div class="table-row" id="calendar-header">
-                    <div class="table-cell">Sunday</div>
-                    <div class="table-cell">Monday</div>
-                    <div class="table-cell">Tuesday</div>
-                    <div class="table-cell">Wednesday</div>
-                    <div class="table-cell">Thursday</div>
-                    <div class="table-cell">Friday</div>
-                    <div class="table-cell">Saturday</div>
-                </div>
+                
             </div>
         </div>
     </body>
