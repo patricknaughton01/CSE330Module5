@@ -1,4 +1,5 @@
 body{
+    background-image: url('leaves.png');
     min-width: 100vw;
     min-height: 100vh;
 }
@@ -56,6 +57,7 @@ body{
     width: 15vw;
     min-width: 90px;
     height: auto;
+    background-color: #f8f8f8
 }
 
 .card{
@@ -75,10 +77,16 @@ body{
     margin-top: 5px;
 }
 
+li.nav-element {
+    height: 50px;
+}
+
 .btn.btn-default.navbar-btn {
     height: 100%;
+    margin: 0;
     border-color: rgba(0,0,0,0);
     background-color: rgba(0,0,0,0);
+    border-radius: 0;
 }
 
 .btn.btn-default.navbar-btn:hover {
