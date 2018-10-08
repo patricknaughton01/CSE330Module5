@@ -21,8 +21,10 @@ document.addEventListener("DOMContentLoaded", function(){
 }, false);
 
 function updateCalendar(month){
+    let monthNames = ["January", "February", "March", "April", "May", "June", "July",
+                      "August", "September", "Oktoberfest", "November", "December"];
     document.getElementById("year").innerText = "Year: " + month.year;
-    document.getElementById("disp-month").innerText = "Month: " + (month.month + 1);
+    document.getElementById("disp-month").innerText = "Month: " + monthNames[month.month];
     calendar.innerHTML = `
         <div class="table-row" id="calendar-header">
             <div class="table-cell">Sunday</div>
