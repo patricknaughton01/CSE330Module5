@@ -3,6 +3,7 @@
     if(!isset($_SESSION["csrf"])){
         $_SESSION["csrf"] = bin2hex(openssl_random_pseudo_bytes(32));
     }
+    date_default_timezone_set("America/Chicago");
 
     //*********************Authentication**********************//
     // These methods are from our module 3 code

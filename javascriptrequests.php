@@ -48,6 +48,49 @@
                     }
                     exit;
                     break;
+                case "get-events":
+                    if(check_user($_POST) !== "success"){
+                        echo '{"status": "error", "type":"get-events", "message":"failed-login"}';
+                        exit;
+                    }
+                    $month = (int) validate($_POST, "month");
+                    $year = (int) validate($_POST, "year");
+                    $min_month = $month-1;
+                    $max_month = $month + 1;
+                    $min_time_str = ((string)$year).'-'.((string)$min_month).'01 00:00:00';
+                    $tmp = ((string)$year).'-'.((string)$max_month).'-01';
+                    $max_time_str =
+                        ((string)$year).'-'.((string)$max_month).'-'.date('t', strtotime($tmp)).' 23:59:59';
+                    $sqli = connect();
+                    $stmt = prepare_query($sqli, "select
+                            id, title, start_time, end_time, description, location from
+                            events where user_id=? and ((start_time between ? and ?)
+                            or (end_time between ? and ?))");
+                    $stmt->bind_param("sssss", $_SESSION["user-id"],
+                                      $min_time_str, $max_time_str,
+                                      $min_time_str, $max_time_str);
+                    $stmt->execute();
+                    $stmt->bind_result($id, $title, $start_time, $end_time, $desc, $location);
+                    $r_str = '{"status":"success", "events":{';
+                    $count = 0;
+                    while($stmt->fetch()){
+                        if($count > 0){
+                            $r_str = $r_str.',';
+                        }
+                        $r_str = $r_str.sprintf('"%d":{
+                                          "title":"%s",
+                                          "start_time":"%s",
+                                          "end_time":"%s",
+                                          "desc":"%s",
+                                          "location":"%s"}',
+                                          $id, $title, $start_time,
+                                          $end_time, $desc, $location);
+                        $count++;
+                    }
+                    $r_str = $r_str."}}";
+                    echo $r_str;
+                    exit;
+                    break;
                 case "logout":
                     session_destroy();
                     session_start();
