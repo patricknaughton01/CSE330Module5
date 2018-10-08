@@ -8,13 +8,21 @@ var calendar = null;
 document.addEventListener("DOMContentLoaded", function(){
     calendar = document.getElementById("calendar");
     currentMonth = new Month(currentDate.getFullYear(), currentDate.getMonth());
-    //console.log(currentDate.getWeeks());
-    updateCalendar(currentMonth);
     setCsrf();
     getUsername();
+    $(".previous-month-button").on("click", function(){
+        currentMonth = currentMonth.prevMonth();
+        updateCalendar(currentMonth);
+    });
+    $(".next-month-button").on("click", function(){
+        currentMonth = currentMonth.nextMonth();
+        updateCalendar(currentMonth);
+    });
 }, false);
 
 function updateCalendar(month){
+    document.getElementById("year").innerText = "Year: " + month.year;
+    document.getElementById("disp-month").innerText = "Month: " + (month.month + 1);
     calendar.innerHTML = `
         <div class="table-row" id="calendar-header">
             <div class="table-cell">Sunday</div>
@@ -34,8 +42,9 @@ function updateCalendar(month){
         for(let d = 0; d<days.length; d++){
             let dispMonth = days[d].getMonth() + 1;
             let dispDate = days[d].getDate();
+            let dispYear = days[d].getFullYear();
             row.innerHTML +=
-            '<div class="table-cell" id="' + dispMonth + "-" + dispDate + '">' +
+            '<div class="table-cell" id="' + dispYear + "-" + dispMonth + "-" + dispDate + '">' +
                 '<div class="date-field">' +
                     dispMonth +
                     '/' +
@@ -52,7 +61,7 @@ function updateCalendar(month){
                 let end_date = new Date(r.events[evt].end_time);
                 for(let d = start_date; d<=end_date; d.setDate(d.getDate()+1)){
                     let dayElem = document.getElementById(
-                        (d.getMonth()+1) + "-" + d.getDate());
+                        d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate());
                     if(dayElem !== null){
                         let eventElem = document.createElement("DIV");
                         let eventText = document.createTextNode(r.events[evt].title);
@@ -68,8 +77,10 @@ function updateCalendar(month){
     {"action": "get-events", "month": month.month, "year": month.year});
 }
 
-function createEventPopup(){
-    console.log("Creating event popup");
+function createEventPopup(month=-1, year=-1, day=1){
+    if(month === -1){
+        month = currentMonth.month;
+    }
 }
 
 function createRegisterPopup(){

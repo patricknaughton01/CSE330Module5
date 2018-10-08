@@ -25,6 +25,8 @@
                     <ul class="nav navbar-nav">
                         <li><button class="btn btn-default navbar-btn" id="today-button">Today</button></li>
                         <li><button class="btn btn-default create-event-button navbar-btn" id="create-event-button-header">Create an Event</button></li>
+                        <li><button class="btn btn-default previous-month-button navbar-btn" id="previous-month-button-header">Previous Month</button></li>
+                        <li><button class="btn btn-default next-month-button navbar-btn" id="next-month-button-header">Next Month</button></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
@@ -38,8 +40,10 @@
             </div>
         </nav>
         <div class="calendar-container container">
+            <div id="year"></div>
+            <div id="disp-month"></div>
             <div class="table" id="calendar">
-                
+
             </div>
         </div>
     </body>
