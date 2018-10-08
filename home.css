@@ -29,6 +29,18 @@ body{
     max-width: 300px;
 }
 
+.registration-input {
+    margin: 2px;
+}
+
+#login-head{
+    margin: 1px;
+}
+
+#register-head{
+    margin: 1px;
+}
+
 #dropdown-menu{
     padding: 5px;
 }
@@ -73,12 +85,12 @@ body{
     display: none;
 }
 
-.btn.btn-default {
-    margin-top: 5px;
-}
-
 li.nav-element {
     height: 50px;
+}
+
+.btn.btn-default {
+    margin-top: 5px;
 }
 
 .btn.btn-default.navbar-btn {
@@ -91,4 +103,8 @@ li.nav-element {
 
 .btn.btn-default.navbar-btn:hover {
     background-color: #d7d7d7;
+}
+
+.cal-header {
+    font-size: 20pt;
 }

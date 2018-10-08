@@ -95,7 +95,7 @@ function createRegisterPopup(){
         let content = document.createElement("DIV");
         content.classList.add("card-body");
         content.innerHTML = `
-            <h1>Register</h1>
+            <h1 id="register-head">Register</h1>
             <div id="registration-form-group">
                 <input class="registration-input" type="text" name="username" id="register-username" placeholder="Username"/>
                 <input class="registration-input" type="password" name="password" id="register-password" placeholder="Password"/>
@@ -222,9 +222,9 @@ function loadContent(){
         dropdown.insertBefore(document.createTextNode("Guest"), dropdown.childNodes[0]);
         menu.innerHTML = `
             <li>
-                <p>Login:</p>
-                <input type="text" name="username" id="username" placeholder="Username"/>
-                <input type="password" name="password" id="password" placeholder="Password"/>
+                <p id="login-head">Login:</p>
+                <input class="registration-input" type="text" name="username" id="username" placeholder="Username"/>
+                <input class="registration-input" type="password" name="password" id="password" placeholder="Password"/>
                 <button class="btn btn-default" id="submit-login">Login</button>
                 <button class="btn btn-default" id="register-button">Register</button>
             </li>

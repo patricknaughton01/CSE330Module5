@@ -40,8 +40,8 @@
             </div>
         </nav>
         <div class="calendar-container container">
-            <div id="year"></div>
-            <div id="disp-month"></div>
+            <div class="cal-header" id="year"></div>
+            <div class="cal-header" id="disp-month"></div>
             <div class="table" id="calendar">
 
             </div>
