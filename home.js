@@ -81,18 +81,18 @@ function createEventPopup(month=-1, year=-1, day=1){
     if(month === -1){
         month = currentMonth.month;
     }
+    if(year === -1){
+        year = currentMonth.year;
+    }
+    // if user is logged in.
+    if(username !== ""){
+        createModal(`<h1>New Event</h1>`, closeEventPopup);
+    }
 }
 
 function createRegisterPopup(){
     if (username === "") {
-        let modalBox = document.createElement("DIV");
-        modalBox.classList.add("modal-box");
-        let modal = document.createElement("DIV");
-        modal.classList.add("card");
-        modal.id = "registration-modal";
-        let content = document.createElement("DIV");
-        content.classList.add("card-body");
-        content.innerHTML = `
+        createModal(`
             <h1>Register</h1>
             <div id="registration-form-group">
                 <input class="registration-input" type="text" name="username" id="register-username" placeholder="Username"/>
@@ -103,15 +103,26 @@ function createRegisterPopup(){
                     <button class="btn btn-default" id="submit-registration">Submit</button>
                 </div>
             </div>
-        `;
-        modal.appendChild(content);
-        modalBox.appendChild(modal);
-        document.getElementsByTagName("body")[0].appendChild(modalBox);
-        modalBox.addEventListener("click", closeRegistrationModal, false);
+        `, closeRegistrationModal);
         document.getElementById("submit-registration").addEventListener("click", registerUser, false);
         $(".registration-input").on("change", verifyRegistrationInputs);
     }
 
+}
+
+function createModal(contentHTML, closeCallback){
+    let modalBox = document.createElement("DIV");
+    modalBox.classList.add("modal-box");
+    let modal = document.createElement("DIV");
+    modal.classList.add("card");
+    let content = document.createElement("DIV");
+    content.classList.add("card-body");
+    content.innerHTML = contentHTML;
+    modal.appendChild(content);
+    modalBox.appendChild(modal);
+    document.getElementsByTagName("body")[0].appendChild(modalBox);
+    modalBox.addEventListener("click", closeCallback, false);
+    return modalBox;
 }
 
 function verifyRegistrationInputs(){
@@ -135,6 +146,10 @@ function verifyRegistrationInputs(){
     }
 }
 
+function saveEvent(){
+    console.log("Saving event");
+}
+
 function registerUser(){
     let username = document.getElementById("register-username");
     if(username !== null){ username = username.value; }else{ return; }
@@ -142,9 +157,11 @@ function registerUser(){
     if(password !== null){ password = password.value; }else{ return; }
     let cpassword = document.getElementById("register-cpassword");
     if(cpassword !== null){ cpassword = cpassword.value; }else{ return; }
+    console.log("Registering");
     request(function(r){
         if(r.status === "success"){
-            closeRegistrationModal("manual");
+            console.log("SUCCESSFUL REGISTRATION");
+            closeRegistrationModal({"target":"manual"});
             getUsername();
         }else{
             console.log(r);
@@ -166,21 +183,32 @@ function logUserIn(){
     }, {"action": "log-user-in", "username": username, "password": password});
 }
 
+function closeEventPopup(evt){
+    evt.type = "event";
+    closeModal(evt);
+}
+
 function closeRegistrationModal(evt){
-    let obj = null;
-    if(evt.target === this){
-        obj = event.target;
-    }else if(evt==="manual"){
-        obj = document.getElementsByClassName("modal-box")[0];
-    }
-    try{
+    evt.type = "registration";
+    closeModal(evt);
+}
+
+function closeModal(evt){
+    if(evt.target === document.getElementsByClassName("modal-box")[0] || evt.target==="manual"){
+        switch(evt.type){
+            case "registration":
+                $(".registration-input").off("change", verifyRegistrationInputs);
+                document.getElementById("submit-registration").removeEventListener("click", registerUser);
+                break;
+            case "event":
+                $(".event-input").off();
+                document.getElementById("save-event").removeEventListener("click", saveEvent);
+                break;
+        }
+        let obj = document.getElementsByClassName("modal-box")[0];
         console.log(obj);
-        obj.removeEventListener("click", closeRegistrationModal);
-        $(".registration-input").off("change", verifyRegistrationInputs);
-        document.getElementById("submit-registration").removeEventListener("click", registerUser);
+        $(".modal-box").off();
         obj.parentNode.removeChild(obj);
-    }catch(e){
-        console.log(e);
     }
 }
 
