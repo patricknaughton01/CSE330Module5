@@ -77,16 +77,46 @@ function updateCalendar(month){
     {"action": "get-events", "month": month.month, "year": month.year});
 }
 
-function createEventPopup(month=-1, year=-1, day=1){
+function createEventPopup(evt, title="", description="", location="", month=-1, year=-1, day=1, id=-1, action="create-event"){
     if(month === -1){
         month = currentMonth.month;
     }
     if(year === -1){
         year = currentMonth.year;
     }
+    let startString = year + "-" + formatMonthOrDay(month+1) + "-" + formatMonthOrDay(day) + "T11:00";
+    let endString = year + "-" + formatMonthOrDay(month+1) + "-" + formatMonthOrDay(day) + "T12:00";
+    console.log(title);
     // if user is logged in.
     if(username !== ""){
-        createModal(`<h1>New Event</h1>`, closeEventPopup);
+        let modal = createModal(`
+            <h1>Event</h1>
+            <input class="event-input" type="text" name="title" id="event-title" value="` + title + `"/>
+            <input class="event-input" type="text" name="location" id="event-location" value="` + location + `"/>
+            <textarea class="event-input" name="description" id="event-description">` + description + `</textarea>
+            <label>Start Time:
+                <input class="event-input" type="datetime-local" name="start-time" id="event-start-time" value="` + startString + `"/>
+            </label>
+            <label>End Time:
+                <input class="event-input" type="datetime-local" name="end-time" id="event-end-time" value="` + endString + `"/>
+            </label>
+            <input type="hidden" name="id" value="` + id + `"/>
+            <input type="hidden" name="action" value="` + action + `"/>
+            <button class="btn btn-default event-input" id="save-button">Save</button>
+        `, closeEventPopup);
+        modal.getElementById("save-button").addEventListener("click", function(){
+            request(function(r){
+                console.log(r);
+            }, {
+                "action": action,
+                "id": id,
+                "title": modal.getElementById("event-title").textContent,
+                "location": modal.getElementById("event-location").textContent,
+                "description": modal.getElementById("event-description").textContent,
+                "start-time": modal.getElementById("start-time").textContent,
+                "end-time": modal.getElementById("end-time").textContent
+                });
+        }, false);
     }
 }
 
@@ -294,4 +324,12 @@ function setCsrf(){
 
 function usernameValid(username){
     return /^[a-zA-Z]+$/.test(username);
+}
+
+function formatMonthOrDay(monthOrDay){
+    fMonthOrDay = String(monthOrDay);
+    while(fMonthOrDay.length < 2){
+        fMonthOrDay = "0" + fMonthOrDay;
+    }
+    return fMonthOrDay;
 }

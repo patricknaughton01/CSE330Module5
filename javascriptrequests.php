@@ -5,6 +5,25 @@
     if(isset($_POST["action"]) && $_POST["action"] !== null){
         if(csrf_valid($_POST)){
             switch($_POST["action"]){
+                case "create-event":
+                    if(check_user($_POST) !== "success"){
+                        echo '{"status":"error", "type": "create-event", "message": "failed-login"}';
+                        exit;
+                    }
+                    $title = (string) validate($_POST, "title");
+                    $location = (string) validate($_POST, "location");
+                    $description = (string) validate($_POST, "description");
+                    $start_time = (string) validate($_POST, "start-time");
+                    $end_time = (string) validate($_POST, "end-time");
+                    printf('{"status":"success",
+                           "title":"%s",
+                           "location":"%s",
+                           "description":"%s",
+                           "start-time":"%s",
+                           "end-time":"%s"}',
+                           $title, $location, $description, $start_time, $end_time);
+                    exit;
+                    break;
                 case "get-username":
                     if(check_user($_POST) === "success"){
                         printf('{"status": "success", "username":"%s", "user_id":"%s"}',
