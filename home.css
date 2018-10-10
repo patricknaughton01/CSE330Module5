@@ -1,4 +1,5 @@
 body{
+    background-image: url('leaves.png');
     min-width: 100vw;
     min-height: 100vh;
 }
@@ -26,6 +27,18 @@ body{
 
 #registration-form-group{
     max-width: 300px;
+}
+
+.registration-input {
+    margin: 2px;
+}
+
+#login-head{
+    margin: 1px;
+}
+
+#register-head{
+    margin: 1px;
 }
 
 #dropdown-menu{
@@ -56,6 +69,14 @@ body{
     width: 15vw;
     min-width: 90px;
     height: auto;
+    background-color: rgba(248,248,248, 0.5)
+}
+
+.event {
+    padding: 5px;
+    margin: 3px 0 3px 0;
+    background-color: #AAD7FF;
+    border-radius: 2px;
 }
 
 .card{
@@ -71,16 +92,26 @@ body{
     display: none;
 }
 
+li.nav-element {
+    height: 50px;
+}
+
 .btn.btn-default {
     margin-top: 5px;
 }
 
 .btn.btn-default.navbar-btn {
     height: 100%;
+    margin: 0;
     border-color: rgba(0,0,0,0);
     background-color: rgba(0,0,0,0);
+    border-radius: 0;
 }
 
 .btn.btn-default.navbar-btn:hover {
     background-color: #d7d7d7;
+}
+
+.cal-header {
+    font-size: 20pt;
 }
