@@ -15,13 +15,18 @@
                     $description = (string) validate($_POST, "description");
                     $start_time = (string) validate($_POST, "start-time");
                     $end_time = (string) validate($_POST, "end-time");
-                    printf('{"status":"success",
-                           "title":"%s",
-                           "location":"%s",
-                           "description":"%s",
-                           "start-time":"%s",
-                           "end-time":"%s"}',
-                           $title, $location, $description, $start_time, $end_time);
+                    $sqli = connect();
+                    $stmt = prepare_query($sqli, "insert into events
+                            (user_id,
+                            title,
+                            location,
+                            description,
+                            start_time,
+                            end_time) values(
+                            ?, ?, ?, ?, ?, ?)");
+                    $stmt->bind_param("isssss", $_SESSION["user-id"], $title, $location, $description, $start_time, $end_time);
+                    $stmt->execute();
+                    echo '{"status":"success", "type":"create-event"}';
                     exit;
                     break;
                 case "get-username":

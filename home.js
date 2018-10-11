@@ -89,7 +89,7 @@ function createEventPopup(evt, title="", description="", location="", month=-1, 
     console.log(title);
     // if user is logged in.
     if(username !== ""){
-        let modal = createModal(`
+        createModal(`
             <h1>Event</h1>
             <input class="event-input" type="text" name="title" id="event-title" value="` + title + `"/>
             <input class="event-input" type="text" name="location" id="event-location" value="` + location + `"/>
@@ -104,18 +104,20 @@ function createEventPopup(evt, title="", description="", location="", month=-1, 
             <input type="hidden" name="action" value="` + action + `"/>
             <button class="btn btn-default event-input" id="save-button">Save</button>
         `, closeEventPopup);
-        modal.getElementById("save-button").addEventListener("click", function(){
+        document.getElementById("save-button").addEventListener("click", function(){
             request(function(r){
                 console.log(r);
+                updateCalendar(currentMonth);
             }, {
                 "action": action,
                 "id": id,
-                "title": modal.getElementById("event-title").textContent,
-                "location": modal.getElementById("event-location").textContent,
-                "description": modal.getElementById("event-description").textContent,
-                "start-time": modal.getElementById("start-time").textContent,
-                "end-time": modal.getElementById("end-time").textContent
+                "title": document.getElementById("event-title").value,
+                "location": document.getElementById("event-location").value,
+                "description": document.getElementById("event-description").value,
+                "start-time": document.getElementById("event-start-time").value,
+                "end-time": document.getElementById("event-end-time").value
                 });
+            closeEventPopup({"target": "manual"});
         }, false);
     }
 }
@@ -176,10 +178,6 @@ function verifyRegistrationInputs(){
     }
 }
 
-function saveEvent(){
-    console.log("Saving event");
-}
-
 function registerUser(){
     let username = document.getElementById("register-username");
     if(username !== null){ username = username.value; }else{ return; }
@@ -232,7 +230,7 @@ function closeModal(evt){
                 break;
             case "event":
                 $(".event-input").off();
-                document.getElementById("save-event").removeEventListener("click", saveEvent);
+                $("#save-event").off();
                 break;
         }
         let obj = document.getElementsByClassName("modal-box")[0];
